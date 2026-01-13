@@ -1,0 +1,26 @@
+services:
+  einkaufsliste:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      MONGODB_URI: "mongodb://mongodb:27017/app"
+      PORT: 3000
+      NODE_ENV: "development"
+      REACT_APP_API_URL: "http://localhost:3000"
+    depends_on:
+      - mongodb
+    restart: unless-stopped
+  
+  mongodb:
+    image: mongo:7
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+
+volumes:
+  mongodb_data:
